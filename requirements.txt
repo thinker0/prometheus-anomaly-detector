@@ -11,3 +11,4 @@ mlflow
 numpy
 scikit-learn
 tensorflow>=2.0,<2.5
+statsmodels

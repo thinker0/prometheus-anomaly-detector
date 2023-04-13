@@ -20,6 +20,7 @@ tensorflow = ">=2.0, <2.5"
 plotly = "*"
 ipywidgets = "*"
 holidays = "*"
+statsmodels = "*"
 
 [requires]
 python_version = "3.8"

@@ -19,3 +19,4 @@ dependencies:
       - holidays
       - tensorflow
       - scikit-learn
+      - statsmodels
