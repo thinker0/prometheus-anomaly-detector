@@ -1,0 +1,15 @@
+FROM --platform=linux/amd64 python:3.8-slim
+ARG DEBIAN_FRONTEND="noninteractive"
+
+# Add application sources to a directory that the assemble script expects them
+# and set permissions so that the container runs without root access
+USER 0
+ENV PIP_DEFAULT_TIMEOUT=200
+COPY .pip.cfg /root/.pip/pip.conf
+RUN python3 -m pip install --upgrade pip pipenv virtualenv --verbose \
+    && apt update \
+    && apt install -y software-properties-common \
+    && apt install -y python2 libpython2.7 wget sudo vim curl psutil \
+    && rm -rf /var/lib/apt/lists/*
+EXPOSE 8080
+CMD [ "bash"]
