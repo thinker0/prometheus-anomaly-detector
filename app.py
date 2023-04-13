@@ -196,10 +196,11 @@ if __name__ == "__main__":
     # Initial run to generate metrics, before they are exposed
     train_model(initial_run=True, data_queue=predicted_model_queue)
 
-    # Set up the tornado web app
-    app = make_app(predicted_model_queue)
-    app.listen(8080)
     server_process = Process(target=tornado.ioloop.IOLoop.instance().start)
+    # Set up the tornado web app
+    app = make_app(predicted_model_queue, server_process)
+    port = os.getenv("HTTP_PORT", "8080")
+    app.listen(int(port))
     # Start up the server to expose the metrics.
     server_process.start()
 
