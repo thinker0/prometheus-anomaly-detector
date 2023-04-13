@@ -15,6 +15,8 @@ from configuration import Configuration
 import model
 import model_fourier
 import model_lstm
+import model_sarima
+
 import schedule
 
 # Set up logging
@@ -26,7 +28,12 @@ METRICS_LIST = Configuration.metrics_list
 PREDICTOR_MODEL_LIST = list()
 
 # model list
-MODEL_LIST = {"Prophet": model,"Fourier":model_fourier,"LSTM": model_lstm}
+MODEL_LIST = {
+    "Prophet": model,
+    "Fourier": model_fourier,
+    "LSTM": model_lstm,
+    "SARIMA": model_sarima,
+}
 
 pc = PrometheusConnect(
     url=Configuration.prometheus_url,

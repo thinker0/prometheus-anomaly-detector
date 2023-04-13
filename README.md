@@ -18,6 +18,7 @@ The use case for this framework is to assist teams in real-time alerting of thei
 <br> Example: If set to `1d`, every time before training the model using the training dataframe, the metric data that is older than 1 day will be deleted.
 * `FLT_PARALLELISM` - An option for parallelism. Each metric is "assigned" a separate model object. This parameter reperesents the number of models that will be trained concurrently. 
 <br> The default value is set as `1` and the upper limit will depend on the number of CPU cores provided to the container.
+* `FLT_MODEL_TYPE` - This parameter specifies the model type to be used for training. The default value is set as `Prophet` and the other options is `Fourier`,`LSTM`,`SARIMA`.
 If you are testing locally, you can do the following:
 - Environment variables are loaded from `.env`. `pipenv` will load these automatically. So make sure you execute everything via `pipenv install`.
 
