@@ -109,11 +109,34 @@ class MainHandler(tornado.web.RequestHandler):
         self.set_header("Content-Type", "text; charset=utf-8")
 
 
-def make_app(data_queue):
+class HealthHandler(tornado.web.RequestHandler):
+    def initialize(self, process):
+        self.process = process
+
+    async def get(self):
+        self.set_status(200)
+        self.write("ok")
+
+
+class LifecycleHandler(tornado.web.RequestHandler):
+    def initialize(self, process):
+        self.process = process
+
+    async def post(self):
+        self.process.kill()
+        self.set_status(200)
+        self.write("ok")
+
+
+def make_app(data_queue, process):
     """Initialize the tornado web app."""
     _LOGGER.info("Initializing Tornado Web App")
     return tornado.web.Application(
         [
+            (r"/health", HealthHandler, dict(process=process)),
+            (r"/quitquitquit", LifecycleHandler, dict(process=process)),
+            (r"/abortabortabort", LifecycleHandler, dict(process=process)),
+            (r"/metrics", MainHandler, dict(data_queue=data_queue)),
             (r"/metrics", MainHandler, dict(data_queue=data_queue)),
             (r"/", MainHandler, dict(data_queue=data_queue)),
         ]
