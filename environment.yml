@@ -5,15 +5,17 @@ channels:
 dependencies:
   - python=3.8
   - pip
-  - prophet
+  - prophet==1.1.2
   - pip:
+      - certifi
       - pandas
       - schedule
       - prometheus_client
-      - prometheus_api_client
+      - prometheus-api-client
       - tornado
       - dateparser
       - mlflow
       - numpy
-      - tensorflow >=2.0,<2.5
+      - holidays
+      - tensorflow
       - scikit-learn

@@ -1,21 +1,25 @@
 [[source]]
-url = "https://pypi.org/simple"
+# url = "https://pypi.org/simple"
+url = "https://repo.linecorp.com/repository/pypi/simple"
 verify_ssl = true
 name = "pypi"
 
 [packages]
-pandas = "*"
+pandas = "==1.3.0"
 schedule = "*"
 prometheus_client = "*"
 prometheus_api_client = "*"
-tornado = "*"
-pystan = "==2.19.1.1"
-prophet = "*"
+tornado = "==6.2"
+pystan = "*"
+prophet = "==1.1.2"
 dateparser = "*"
 mlflow = "*"
 numpy = "*"
 scikit-learn = "*"
 tensorflow = ">=2.0, <2.5"
+plotly = "*"
+ipywidgets = "*"
+holidays = "*"
 
 [requires]
 python_version = "3.8"
