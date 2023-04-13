@@ -29,7 +29,7 @@ class MetricPredictor:
         self.metric = Metric(metric, rolling_data_window_size)
 
     def sarima_driver(self, input, range, freq):
-
+        _LOGGER.info("Initialize the SARIMA model")
         model = SARIMAX(
             input,
             order=(1, 2, 2),
@@ -37,8 +37,12 @@ class MetricPredictor:
             enforce_stationarity=True,
             enforce_invertibility=False,
         )
+        _LOGGER.info("Fit the trained model...")
         model_fit = model.fit(dsip=-1)
+        _LOGGER.info("Forecast values....")
         forecast = model_fit.forecast(range)
+        _LOGGER.info(type(forecast))
+        _LOGGER.info("Successfully, ended the model training")
         return forecast
 
     def train(self, metric_data=None, prediction_duration=15, freq="1h"):
