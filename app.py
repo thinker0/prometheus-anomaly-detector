@@ -13,6 +13,10 @@ from prometheus_client import Gauge, generate_latest, REGISTRY
 from prometheus_api_client import PrometheusConnect, Metric
 from configuration import Configuration
 import model
+import model_fourier
+import model_lstm
+import model_sarima
+
 import schedule
 
 # Set up logging
@@ -23,6 +27,13 @@ METRICS_LIST = Configuration.metrics_list
 # list of ModelPredictor Objects shared between processes
 PREDICTOR_MODEL_LIST = list()
 
+# model list
+MODEL_LIST = {
+    "prophet": model,
+    "fourier": model_fourier,
+    "lstm": model_lstm,
+    "sarima": model_sarima,
+}
 
 pc = PrometheusConnect(
     url=Configuration.prometheus_url,
@@ -36,10 +47,10 @@ for metric in METRICS_LIST:
 
     for unique_metric in metric_init:
         PREDICTOR_MODEL_LIST.append(
-            model.MetricPredictor(
+            MODEL_LIST[Configuration.model_type.lower()].MetricPredictor(
                 unique_metric,
                 rolling_data_window_size=Configuration.rolling_training_window_size,
-            )
+                )
         )
 
 # A gauge set for the predicted values
@@ -50,7 +61,7 @@ for predictor in PREDICTOR_MODEL_LIST:
     label_list.append("value_type")
     if unique_metric.metric_name not in GAUGE_DICT:
         GAUGE_DICT[unique_metric.metric_name] = Gauge(
-            unique_metric.metric_name + "_" + predictor.model_name,
+            unique_metric.metric_name + "_" + predictor.model_name.lower(),
             predictor.model_description,
             label_list,
         )
