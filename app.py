@@ -29,10 +29,10 @@ PREDICTOR_MODEL_LIST = list()
 
 # model list
 MODEL_LIST = {
-    "Prophet": model,
-    "Fourier": model_fourier,
-    "LSTM": model_lstm,
-    "SARIMA": model_sarima,
+    "prophet": model,
+    "fourier": model_fourier,
+    "lstm": model_lstm,
+    "sarima": model_sarima,
 }
 
 pc = PrometheusConnect(
@@ -47,7 +47,7 @@ for metric in METRICS_LIST:
 
     for unique_metric in metric_init:
         PREDICTOR_MODEL_LIST.append(
-            MODEL_LIST[Configuration.model_type].MetricPredictor(
+            MODEL_LIST[Configuration.model_type.lower()].MetricPredictor(
                 unique_metric,
                 rolling_data_window_size=Configuration.rolling_training_window_size,
                 )
@@ -61,7 +61,7 @@ for predictor in PREDICTOR_MODEL_LIST:
     label_list.append("value_type")
     if unique_metric.metric_name not in GAUGE_DICT:
         GAUGE_DICT[unique_metric.metric_name] = Gauge(
-            unique_metric.metric_name + "_" + predictor.model_name,
+            unique_metric.metric_name + "_" + predictor.model_name.lower(),
             predictor.model_description,
             label_list,
         )

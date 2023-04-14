@@ -19,4 +19,6 @@ dependencies:
       - holidays
       - tensorflow
       - scikit-learn
+      # tensorflow.keras.models for protobuf package to 3.20.x or lower.
+      - protobuf==3.20.3
       - statsmodels
