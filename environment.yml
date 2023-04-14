@@ -22,3 +22,4 @@ dependencies:
       # tensorflow.keras.models for protobuf package to 3.20.x or lower.
       - protobuf==3.20.3
       - statsmodels
+      - neuralprophet==0.5.4

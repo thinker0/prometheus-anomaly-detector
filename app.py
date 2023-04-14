@@ -12,6 +12,8 @@ import tornado.ioloop
 import tornado.web
 from prometheus_client import Gauge, generate_latest, REGISTRY
 from prometheus_api_client import PrometheusConnect, Metric
+
+import model_nprophet
 from configuration import Configuration
 import model
 import model_fourier
@@ -34,6 +36,7 @@ MODEL_LIST = {
     "fourier": model_fourier,
     "lstm": model_lstm,
     "sarima": model_sarima,
+    "neural_prophet": model_nprophet,
 }
 
 pc = PrometheusConnect(
