@@ -2,6 +2,8 @@
 import datetime
 import logging
 import pandas
+import holidays
+
 from prophet import Prophet
 from prometheus_api_client import Metric
 
@@ -17,6 +19,13 @@ class MetricPredictor:
     model = None
     predicted_df = None
     metric = None
+    playoffs = holidays.JP() + holidays.TW() + holidays.TH()
+    playoff = pandas.DataFrame({
+        'holiday': 'playoff',
+        'ds': pandas.to_datetime(playoffs.get_named('day')),
+        'lower_window': 0,
+        'upper_window': 1,
+    })
 
     def __init__(self, metric, rolling_data_window_size="10d"):
         """Initialize the Metric object."""
@@ -33,7 +42,8 @@ class MetricPredictor:
         # Don't really need to store the model, as prophet models are not retrainable
         # But storing it as an example for other models that can be retrained
         self.model = Prophet(
-            daily_seasonality=True, weekly_seasonality=True, yearly_seasonality=True
+            daily_seasonality=True, weekly_seasonality=True, yearly_seasonality=True,
+            holidays=self.playoff,
         )
 
         _LOGGER.info(
