@@ -5,6 +5,7 @@ import logging
 from datetime import datetime
 from multiprocessing import Pool, Process, Queue
 from multiprocessing import cpu_count
+from multiprocessing.pool import ThreadPool
 from functools import partial
 from queue import Empty as EmptyQueueException
 import tornado.ioloop
@@ -194,7 +195,7 @@ def train_model(initial_run=False, data_queue=None):
     parallelism = min(Configuration.parallelism, cpu_count())
     _LOGGER.info(f"Training models using ProcessPool of size:{parallelism}")
     training_partial = partial(train_individual_model, initial_run=initial_run)
-    with Pool(parallelism) as p:
+    with ThreadPool(parallelism) as p:
         result = p.map(training_partial, PREDICTOR_MODEL_LIST)
     PREDICTOR_MODEL_LIST = result
     data_queue.put(PREDICTOR_MODEL_LIST)
@@ -223,9 +224,16 @@ if __name__ == "__main__":
         "Will retrain model every %s minutes", Configuration.retraining_interval_minutes
     )
 
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
-
-    # join the server process in case the main process ends
-    server_process.join()
+    try:
+        while True:
+            schedule.run_pending()
+            time.sleep(2)
+    except KeyboardInterrupt:
+        _LOGGER.info("Received SIGINT, exiting")
+    except Exception as e:
+        _LOGGER.error("Error in main loop: %s", e)
+    finally:
+        # join the server process in case the main process ends
+        server_process.join()
+        server_process.terminate()
+        server_process.close()
