@@ -16,13 +16,16 @@ dateparser = "*"
 mlflow = "*"
 numpy = "*"
 scikit-learn = "*"
-tensorflow = ">=2.0, <2.5"
+# tensorflow = ">=2.0, <2.5"
+tensorflow = "*"
 plotly = "*"
 ipywidgets = "*"
 holidays = "*"
 # tensorflow.keras.models for protobuf package to 3.20.x or lower.
 protobuf = "==3.20.3"
 statsmodels = "*"
+cloud-tpu-client = "*"
+keras = "*"
 
 [requires]
 python_version = "3.8"
