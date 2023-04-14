@@ -5,9 +5,9 @@ verify_ssl = true
 name = "pypi"
 
 [[source]]
-url = "https://download.pytorch.org/whl"
+url = "https://download.pytorch.org/whl/cpu/"
 verify_ssl = true
-name = "pytorch"
+name = "pytorch-cpu"
 
 [packages]
 pandas = "*"
@@ -17,7 +17,6 @@ prometheus_api_client = "*"
 tornado = "==6.2"
 pystan = "*"
 prophet = "==1.1.2"
-torch = {version = "==1.13.1+cpu ", index = "pytorch"}
 neuralprophet = "==0.5.4"
 dateparser = "*"
 mlflow = "*"
@@ -33,6 +32,7 @@ protobuf = "==3.20.3"
 statsmodels = "*"
 cloud-tpu-client = "*"
 keras = "*"
+torch = {version = "==1.13.1", index = "pytorch-cpu"}
 
 [requires]
 python_version = "3.8"
