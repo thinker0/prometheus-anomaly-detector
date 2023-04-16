@@ -22,6 +22,7 @@ from tornado.options import parse_command_line
 import model
 import model_fourier
 import model_lstm
+import model_nprophet
 import model_sarima
 from configuration import Configuration
 
@@ -38,6 +39,7 @@ PREDICTOR_MODEL_LIST = list()
 MODEL_LIST = {
     "prophet": model,
     "fourier": model_fourier,
+    "neural_prophet": model_nprophet,
     "lstm": model_lstm,
     "sarima": model_sarima,
 }
