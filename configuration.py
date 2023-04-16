@@ -67,3 +67,10 @@ class Configuration:
     # Note: The upper limit to this will be decided by the number of CPU cores 
     # available to the container.
     parallelism = int(os.getenv("FLT_PARALLELISM", "1"))
+
+    remove_metric_labels = str(
+        os.getenv(
+            "FLT_REMOVE_METRIC_LABELS",
+            "",
+        )
+    ).split(";")

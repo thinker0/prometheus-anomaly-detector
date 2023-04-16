@@ -49,12 +49,20 @@ pc = PrometheusConnect(
     disable_ssl=False,
 )
 
+
+def remove_ignore_metrics(unique_metric):
+    """Remove metrics from the gauge dict which are not in the config."""
+    for label_name in Configuration.remove_metric_labels:
+        unique_metric["metric"].pop(label_name, None)
+
+
 # Initialize the predictor models
 for metric in METRICS_LIST:
     # Initialize a predictor for all metrics first
     metric_init = pc.get_current_metric_value(metric_name=metric)
 
     for unique_metric in metric_init:
+        remove_ignore_metrics(unique_metric)
         PREDICTOR_MODEL_LIST.append(
             MODEL_LIST[Configuration.model_type.lower()].MetricPredictor(
                 unique_metric,
@@ -116,7 +124,8 @@ class MainApplication(tornado.web.Application):
             start_time=data_start_time,
             end_time=datetime.now(),
         )[0]
-
+        # Remove the metrics which are not in the config
+        remove_ignore_metrics(new_metric_data)
         # Train the new model
         start_time = datetime.now()
         predictor_model.train(

@@ -88,7 +88,7 @@ MLFlow: https://mlflow.org/
 * `FLT_TRUE_ANOMALY_THRESHOLD` - Threshold value to calculate true anomalies using a linear function
 * `FLT_DATA_START_TIME` - This specifies the starting time of your metric data timeframe window
 * `FLT_DATA_END_TIME` - This specifies the ending time of your metric data timeframe window
-
+* `FLT_REMOVE_METRIC_LABELS` - This specifies the labels that should be removed from the metric name before training the model.
 Environment variables are loaded from `.env`. `pipenv` will load these automatically. So make sure you execute everything via `pipenv install`.
 
 Configuration is currently done via environment variables. The configuration options are defined in `prometheus-anomaly-detector/test_configuration.py`.
